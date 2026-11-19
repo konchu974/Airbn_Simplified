@@ -1,4 +1,6 @@
 import { Text, View, StyleSheet } from "react-native";
+import LogementCard from "@/components/logementCard";
+
 
 export default function Favoris() {
   return (

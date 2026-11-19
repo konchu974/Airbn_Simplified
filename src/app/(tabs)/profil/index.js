@@ -1,16 +1,21 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, StyleSheet, View, Pressable } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function Profil() {
+  const router = useRouter();
+
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Pressable onPress={() => router.push("/profil/modal")}>
+        <Text style={styles.bouton}>hellooooooooooo</Text>
+      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  bouton: {
+    backgroundColor: "red",
+  
   },
 });

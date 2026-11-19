@@ -9,17 +9,17 @@ import {
   SafeAreaView,
   TextInput,
 } from "react-native";
+import { useRouter } from "expo-router";
 import logements from "@/data/logementsData";
 
-function Logement({ title, city, price, image }) {
+function Logement({ id, title, city, price, image }) {
   const [isFavorite, setIsFavorite] = useState(false);
- 
+  const router = useRouter();
 
   return (
     <Pressable
-      onPress={() => {
-        setIsFavorite(!isFavorite);
-      }}
+      onPress={() => router.push(`/logements/${id}`)}
+      onLongPress={() => setIsFavorite(!isFavorite)}
     >
       <View style={styles.card}>
         <Image style={styles.image} src={image} />
@@ -48,6 +48,7 @@ export default function Index() {
         data={logementsFiltres}
         renderItem={({ item }) => (
           <Logement
+            id={item.id}
             title={item.title}
             city={item.city}
             price={item.price}
