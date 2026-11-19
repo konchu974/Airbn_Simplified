@@ -1,119 +1,46 @@
-import { useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  Pressable,
-  FlatList,
-  SafeAreaView,
-  TextInput,
-} from "react-native";
-import { useRouter } from "expo-router";
-import logements from "@/data/logementsData";
+//  - titre et prix sur une même ligne (flexDirection: "row")
+//  - flex: 1 sur le titre -> il prend la place restante, le prix reste visible
+//  - numberOfLines={2} -> un titre long est tronqué avec « … »
+//  - image en width 100 % + aspectRatio -> s'adapte à la largeur de l'écran
+import { Image, StyleSheet, Text, View } from "react-native";
 
-function Logement({ id, title, city, price, image }) {
-  const [isFavorite, setIsFavorite] = useState(false);
-  const router = useRouter();
-
+export default function LogementCard({ logement }) {
   return (
-    <Pressable
-      onPress={() => router.push(`/logements/${id}`)}
-      onLongPress={() => setIsFavorite(!isFavorite)}
-    >
-      <View style={styles.card}>
-        <Image style={styles.image} src={image} />
-        <View style={styles.infos}>
-          <Text style={styles.title} numberOfLines={2}>
-            {isFavorite ? "★" : ""}
-            {title}
-          </Text>
-          <Text style={styles.city}>{city}</Text>
+    <View style={styles.card}>
+      {logement.image ? (
+        <Image source={{ uri: logement.image }} style={styles.image} />
+      ) : (
+        <View style={[styles.image, styles.placeholder]}>
+          <Text style={styles.placeholderText}>Pas de photo</Text>
         </View>
-        <Text style={styles.price}>{price} $</Text>
-      </View>
-    </Pressable>
-  );
-}
-
-export default function Index() {
-   const [ville, setVille] = useState("");
-  const logementsFiltres = ville
-    ? logements.filter((l) => l.city.trim().toLowerCase().includes(ville.trim().toLowerCase()))
-    : logements;
-  return (
-    <SafeAreaView style={styles.container}>
-      <TextInput style={styles.research} value={ville} onChangeText={setVille} placeholder="Filtrer par ville"/>
-      <FlatList
-        data={logementsFiltres}
-        renderItem={({ item }) => (
-          <Logement
-            id={item.id}
-            title={item.title}
-            city={item.city}
-            price={item.price}
-            image={item.image}
-          />
-        )}
-        keyExtractor={(item) => String(item.id)}
-      />
-      {ville !== "" && (
-        <Pressable style={styles.clearButton} onPress={() => setVille("")}>
-          <Text style={styles.clearButtonText}>EFFACER</Text>
-        </Pressable>
       )}
-    </SafeAreaView>
+
+      <View style={styles.row}>
+        <Text style={styles.title} numberOfLines={2}>
+          {logement.title}
+        </Text>
+        <Text style={styles.price}>{logement.price} €</Text>
+      </View>
+
+      <Text style={styles.city}>{logement.city}</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "95%",
-  },
   card: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "gray",
-    width: "100%",
-    borderRadius: 40,
-    marginBottom: 20,
-    padding: 10,
-    overflow: "hidden",
-  },
-  image: {
-    width: 150,
-    height: 100,
-    borderRadius: 30,
-  },
-  infos: {
-    flex: 1,
-    marginHorizontal: 10,
-    alignItems: "center",
-  },
-  title: {
-    textAlign: "center",
-  },
-  city: {
-    textAlign: "center",
-  },
-  price: {
-    flexShrink: 0,
-  },
-  research:{
+    marginBottom: 16,
+    padding: 12,
     borderWidth: 1,
-    borderRadius: 30,
-    margin:10,
+    borderColor: "#ddd",
+    borderRadius: 12,
+    backgroundColor: "#fff",
   },
-  clearButton: {
-    marginBottom: 40,
-    backgroundColor: "red",
-    borderRadius: 30,
-    paddingVertical: 10,
-    alignItems: "center",
-  },
-  clearButtonText: {
-    color: "white",
-    fontWeight: "bold",
-  },
+  image: { width: "100%", aspectRatio: 16 / 9, borderRadius: 8 },
+  placeholder: { backgroundColor: "#eee", alignItems: "center", justifyContent: "center" },
+  placeholderText: { color: "#888" },
+  row: { flexDirection: "row", alignItems: "flex-start", gap: 8, marginTop: 8 },
+  title: { flex: 1, fontSize: 16, fontWeight: "bold" },
+  price: { fontSize: 16, fontWeight: "700" },
+  city: { color: "gray", marginTop: 2 },
 });

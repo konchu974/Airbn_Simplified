@@ -1,13 +1,10 @@
-import { Stack } from "expo-router";
- 
+import { Drawer } from "expo-router/drawer";
+
 export default function ProfilLayout() {
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ title: "Profil" }} />
-      <Stack.Screen
-        name="modale"                                  
-        options={{ presentation: "modal", title: "Ma modale" }}   
-      />
-    </Stack>
+    <Drawer>
+      <Drawer.Screen name="index" options={{ title: "Profil" }} />
+      <Drawer.Screen name="reglages" options={{ title: "Réglages" }} />
+    </Drawer>
   );
 }

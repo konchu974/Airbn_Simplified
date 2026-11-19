@@ -1,21 +1,17 @@
-import { Text, StyleSheet, View, Pressable } from "react-native";
-import { useRouter } from "expo-router";
+// /profil
+import { Link } from "expo-router";
+import { Text, View } from "react-native";
 
-export default function Profil() {
-  const router = useRouter();
-
+export default function ProfilScreen() {
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Pressable onPress={() => router.push("/profil/modal")}>
-        <Text style={styles.bouton}>hellooooooooooo</Text>
-      </Pressable>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", gap: 12 }}>
+      <Text>Mon profil</Text>
+      <Link href="/profil/reglages" style={{ color: "#FF5A5F" }}>
+        Réglages
+      </Link>
+      <Link href="/modal" style={{ color: "#FF5A5F" }}>
+        Ouvrir la modale
+      </Link>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  bouton: {
-    backgroundColor: "red",
-  
-  },
-});
